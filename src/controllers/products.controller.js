@@ -100,3 +100,23 @@ export const updateProduct = (req, res) => {
     data: products[productIndex],
   });
 };
+
+// delete product
+export const deleteProduct = (req, res) => {
+  const id = Number(req.params.id);
+
+  const productIndex = products.findIndex((mahsulot) => mahsulot.id === id);
+
+  if (productIndex === -1) {
+    return res.status(404).json({
+      message: "Product not found",
+    });
+  }
+
+  const deletedProduct = products.splice(productIndex, 1);
+
+  res.json({
+    message: "Product deleted successfully",
+    data: deletedProduct[0],
+  });
+};
