@@ -45,3 +45,21 @@ export const getProducts = (req, res) => {
     data: result,
   });
 };
+
+// Get single product
+export const getSingleProduct = (req, res) => {
+  const id = Number(req.params.id);
+
+  const product = products.find((mahsulot) => mahsulot.id === id);
+
+  if (!product) {
+    return res.status(404).json({
+      message: "Product not found",
+    });
+  }
+
+  res.json({
+    success: true,
+    data: product,
+  });
+};
