@@ -41,4 +41,32 @@ export const products = [
     price: 100,
     rating: 4.6,
   },
+  {
+    id: 7,
+    title: "Dell XPS 13",
+    category: "laptops",
+    price: 1299,
+    rating: 4.8,
+  },
+  {
+    id: 8,
+    title: "Sony WH-1000XM5",
+    category: "accessories",
+    price: 398,
+    rating: 4.9,
+  },
+  {
+    id: 9,
+    title: "Google Pixel 8",
+    category: "phones",
+    price: 799,
+    rating: 4.6,
+  },
+  {
+    id: 10,
+    title: "iPad Pro 12.9",
+    category: "tablets",
+    price: 1199,
+    rating: 4.7,
+  },
 ];

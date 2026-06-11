@@ -1,10 +1,14 @@
 import express from "express";
+import cors from "cors";
 
 import productsRoutes from "./src/routes/products.route.js";
 
 const app = express();
 
 const PORT = 3000;
+
+// Enable CORS
+app.use(cors());
 
 app.use(express.json());
 
