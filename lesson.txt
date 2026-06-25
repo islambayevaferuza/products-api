@@ -1,0 +1,72 @@
+SQLite nima?
+
+SQLite - bu yengil (lightweight) ma'lumotlar bazasi.
+
+oddiy qilib aytganda:
+
+    Array => RAM'da saqlanadi
+    SQLite => Faylda saqlanadi
+
+Masalan: 
+
+    const products = [];
+
+Bu ma'lumot server restart bo'lsa yo'qoladi.
+
+SQLite esa:
+
+    database.sqlite
+
+fayliga ma'lumotlarni yozadi va unga saqlanib
+
+SQLite qanday ishlaydi?
+
+Biz:
+
+    db.run(...)
+oraqali ma'lumot yozamiz.
+
+    db.get(...)
+oraqali bitta ma'lumot olamiz.
+
+    db.all(...)
+oraqali ko'p ma'lumot olamiz.
+
+SQLite afzalliklari
+
++ o'rnatish oson
++ Alohida server kerak emas
++ kichik va orta loyihalar uchun ideal
++ SQL o'rganish uchun juda qulay
++ Portfolio loyihalar uchun zo'r
+
+SQLite kamchiliklari 
+
+- Juda katta tizimlar uchun mos emas
+- Minglab foydalanuvchilar bir paytda ishlaganda sekinlashishi mumkin
+
+Shuning uchun katta loyihalarda:
+
+    MySql
+    PostgreSql
+
+koproq ishlatiladi
+
+SQL nima?
+
+SQL (Structured Query Language) - database bilan gaplashish tili.
+
+Misollar: 
+
+Ma'lumot qo'shish:
+
+    INSERT INTO products (...)
+
+Ma'lumot olish:
+
+    SELECT * FROM products
+
+Ma'lumot yangilash uchun
+    UPDATE products
+
+    

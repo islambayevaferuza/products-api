@@ -1,6 +1,8 @@
 import express from "express";
 import cors from "cors";
 
+import "./src/initDb.js";
+
 import productsRoutes from "./src/routes/products.route.js";
 
 const app = express();
