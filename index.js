@@ -16,6 +16,8 @@ app.use(express.json());
 
 app.use("/products", productsRoutes);
 
+app.use("/uploads", express.static("src/uploads"));
+
 app.get("/", (req, res) => {
   res.send("Products API working!");
 });

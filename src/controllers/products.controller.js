@@ -1,81 +1,108 @@
 import { products } from "../data/product.js";
 
+import db from "../database/db.js";
+
 // Hamma productni olish funksiyasi
 export const getProducts = (req, res) => {
-  let result = [...products];
+  let query = `
+    SELECT * FROM products
+    WHERE 1=1
+  `;
+
+  const params = [];
 
   // Search
   if (req.query.search) {
-    result = result.filter((mahsulot) =>
-      mahsulot.title.toLowerCase().includes(req.query.search.toLowerCase()),
-    );
+    query += ` AND title LIKE ?`;
+    params.push(`%${req.query.search}%`);
   }
 
   // Category filter
   if (req.query.category) {
-    result = result.filter(
-      (mahsulot) =>
-        mahsulot.category.toLowerCase() === req.query.category.toLowerCase(),
-    );
+    query += ` AND category = ?`;
+    params.push(req.query.category);
   }
 
   //  Price filter
   if (req.query.minPrice) {
-    result = result.filter(
-      (mahsulot) => mahsulot.price >= Number(req.query.minPrice),
-    );
+    query += ` AND price >= ?`;
+    params.push(req.query.minPrice);
   }
 
   if (req.query.maxPrice) {
-    result = result.filter(
-      (mahsulot) => mahsulot.price <= Number(req.query.maxPrice),
-    );
+    query += ` AND price <= ?`;
+    params.push(req.query.maxPrice);
   }
 
   //   Rating filter
   if (req.query.rating) {
-    result = result.filter(
-      (mahsulot) => mahsulot.rating >= Number(req.query.rating),
-    );
+    query += ` AND rating >= ?`;
+    params.push(req.query.rating);
   }
 
-  res.json({
-    success: true,
-    total: result.length,
-    data: result,
+  db.all(query, params, (err, rows) => {
+    if (err) {
+      return res.status(500).json({
+        message: err.message,
+      });
+    }
+
+    res.json({
+      success: true,
+      total: rows.length,
+      data: rows,
+    });
   });
 };
 
 // Get single product
 export const getSingleProduct = (req, res) => {
-  const id = Number(req.params.id);
+  db.get("SELECT * FROM products WHERE id = ?", [req.params.id], (err, row) => {
+    if (!err) {
+      return res.status(404).json({
+        message: "Product not found",
+      });
+    }
 
-  const product = products.find((mahsulot) => mahsulot.id === id);
-
-  if (!product) {
-    return res.status(404).json({
-      message: "Product not found",
+    res.json({
+      success: true,
+      data: row,
     });
-  }
-
-  res.json({
-    success: true,
-    data: product,
   });
 };
 
 // create product
 export const createProduct = (req, res) => {
-  const product = req.body;
+  const { title, category, price, rating } = req.body;
 
-  product.id = products.length + 1;
+  const image = req.file ? `/uploads/${req.file.filename}` : null;
 
-  products.push(product);
+  db.run(
+    `
+      INSERT INTO products
+      (
+        title,
+        category,
+        price,
+        rating,
+        image
+      )
+      VALUES (?,?,?,?,?)
+    `,
+    [title, category, price, rating, image],
+    function (err) {
+      if (err) {
+        return res.status(500).json({
+          message: err.message,
+        });
+      }
 
-  res.status(201).json({
-    message: "Product created successfully",
-    data: product,
-  });
+      res.status(201).json({
+        success: true,
+        productId: this.lastID,
+      });
+    },
+  );
 };
 
 // update product
